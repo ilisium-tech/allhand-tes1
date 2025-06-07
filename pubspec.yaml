@@ -30,4 +30,4 @@ flutter:
   fonts:
     - family: CustomIcons
       fonts:
-        - asset: assets/fonts/custom_icons.ttf
+#        - asset: assets/fonts/custom_icons.ttf

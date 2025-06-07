@@ -21,7 +21,7 @@ void main() {
 
     testWidgets('App should start and display main screen', (WidgetTester tester) async {
       // Build our app and trigger a frame.
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(FamilyApp());
 
       // Verify that the app starts with the main screen
       expect(find.text('The Smith Family Tree'), findsOneWidget);
@@ -33,7 +33,7 @@ void main() {
     });
 
     testWidgets('Bottom navigation should work', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(FamilyApp());
 
       // Tap on Gallery tab
       await tester.tap(find.text('Gallery'));
@@ -51,7 +51,7 @@ void main() {
     });
 
     testWidgets('Family switcher should be present', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(FamilyApp());
 
       // Look for family context banner
       expect(find.textContaining('Viewing:'), findsOneWidget);
@@ -59,7 +59,7 @@ void main() {
     });
 
     testWidgets('Navigation drawer should open', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(FamilyApp());
 
       // Open drawer
       await tester.tap(find.byIcon(Icons.menu));

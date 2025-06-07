@@ -131,8 +131,8 @@ class MapScreen extends StatelessWidget {
 
     return locations.map((location) {
       return Positioned(
-        left: MediaQuery.of(Get.context!).size.width * location['lng'] as double,
-        top: MediaQuery.of(Get.context!).size.height * location['lat'] as double,
+        left: MediaQuery.of(Get.context!).size.width * (location['lng']! as double),
+        top: MediaQuery.of(Get.context!).size.height * (location['lat']! as double),
         child: _buildLocationMarker(location),
       );
     }).toList();

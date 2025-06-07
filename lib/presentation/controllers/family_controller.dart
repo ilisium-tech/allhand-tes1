@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../domain/entities/family.dart';
 import '../../data/models/family_model.dart';
+import 'main_controller.dart';
 
 class FamilyController extends GetxController {
   // Observable variables
