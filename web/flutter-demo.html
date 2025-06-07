@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family App - Flutter Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            overflow: hidden;
+        }
+        
+        .phone-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 40px;
+            padding: 8px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .status-bar {
+            height: 44px;
+            background: #6366f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .app-bar {
+            height: 56px;
+            background: #6366f1;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .app-bar h1 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        .family-banner {
+            height: 40px;
+            background: linear-gradient(90deg, rgba(99,102,241,0.1) 0%, rgba(139,92,246,0.05) 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            border-bottom: 1px solid rgba(99,102,241,0.2);
+        }
+        
+        .family-indicator {
+            width: 24px;
+            height: 24px;
+            background: #6366f1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        
+        .family-text {
+            flex: 1;
+            font-size: 12px;
+            color: #6366f1;
+            font-weight: 600;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            height: calc(100% - 200px);
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #6366f1;
+        }
+        
+        .feature-card h3 {
+            color: #6366f1;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .stats-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .stat-card {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding-bottom: 20px;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+        
+        .nav-item.active {
+            color: #6366f1;
+        }
+        
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            background: currentColor;
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+        }
+        
+        .icon-tree { mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L13.09 8.26L22 9L17 14L18.18 23L12 19.77L5.82 23L7 14L2 9L10.91 8.26L12 2Z'/%3E%3C/svg%3E"); }
+        .icon-gallery { mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 24 24'%3E%3Cpath d='M9 12L11 14L15 9L21 16H3L9 12Z'/%3E%3C/svg%3E"); }
+        .icon-map { mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22S19 14.25 19 9C19 5.13 15.87 2 12 2Z'/%3E%3C/svg%3E"); }
+        .icon-chat { mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 24 24'%3E%3Cpath d='M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z'/%3E%3C/svg%3E"); }
+        .icon-event { mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 24 24'%3E%3Cpath d='M19 3H18V1H16V3H8V1H6V3H5C3.89 3 3.01 3.9 3.01 5L3 19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z'/%3E%3C/svg%3E"); }
+        
+        .loading-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .demo-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .demo-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="demo-controls">
+            <button class="demo-btn" onclick="switchFamily()">Switch Family</button>
+            <button class="demo-btn" onclick="showLoading()">Refresh</button>
+        </div>
+        
+        <div class="phone">
+            <div class="screen">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>100%</span>
+                </div>
+                
+                <div class="app-bar">
+                    <div style="width: 24px; height: 24px; background: white; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                        <div style="width: 16px; height: 16px; background: #6366f1; border-radius: 2px;"></div>
+                    </div>
+                    <h1 id="appTitle">The Smith Family Tree</h1>
+                </div>
+                
+                <div class="family-banner">
+                    <div class="family-indicator">
+                        <div style="width: 12px; height: 12px; background: white; border-radius: 6px;"></div>
+                    </div>
+                    <div class="family-text" id="familyText">Viewing: The Smith Family • 4 members</div>
+                    <div style="background: rgba(99,102,241,0.1); padding: 4px 8px; border-radius: 12px; font-size: 10px; color: #6366f1; font-weight: 500;">Switch</div>
+                </div>
+                
+                <div class="content">
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-value">4</div>
+                            <div class="stat-label">Members</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Generations</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">127</div>
+                            <div class="stat-label">Photos</div>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🌳 Interactive Family Tree</h3>
+                        <p>Visualize family relationships with an interactive tree structure showing all family members and their connections.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🔄 Reactive Family Switching</h3>
+                        <p>Seamlessly switch between multiple families with automatic content updates across all screens using GetX reactive programming.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📱 Clean Architecture</h3>
+                        <p>Built with Clean Architecture principles, separating presentation, domain, and data layers for maintainable code.</p>
+                    </div>
+                </div>
+                
+                <div class="bottom-nav">
+                    <div class="nav-item active">
+                        <div class="nav-icon icon-tree"></div>
+                        <span>Tree</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon icon-gallery"></div>
+                        <span>Gallery</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon icon-map"></div>
+                        <span>Map</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon icon-chat"></div>
+                        <span>Chat</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon icon-event"></div>
+                        <span>Events</span>
+                    </div>
+                </div>
+                
+                <div class="loading-animation" id="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const families = [
+            { name: "The Smith Family", members: 4, photos: 127 },
+            { name: "The Johnson Clan", members: 6, photos: 89 },
+            { name: "The Williams Dynasty", members: 8, photos: 203 }
+        ];
+        
+        let currentFamilyIndex = 0;
+        
+        function switchFamily() {
+            showLoading();
+            
+            setTimeout(() => {
+                currentFamilyIndex = (currentFamilyIndex + 1) % families.length;
+                const family = families[currentFamilyIndex];
+                
+                document.getElementById('appTitle').textContent = `${family.name} Tree`;
+                document.getElementById('familyText').textContent = `Viewing: ${family.name} • ${family.members} members`;
+                
+                // Update stats
+                const statCards = document.querySelectorAll('.stat-value');
+                statCards[0].textContent = family.members;
+                statCards[2].textContent = family.photos;
+                
+                hideLoading();
+            }, 1000);
+        }
+        
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+        
+        // Simulate navigation
+        document.querySelectorAll('.nav-item').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+                
+                const screens = ['Tree', 'Gallery', 'Map', 'Chat', 'Events'];
+                const family = families[currentFamilyIndex];
+                document.getElementById('appTitle').textContent = `${family.name} ${screens[index]}`;
+            });
+        });
+    </script>
+</body>
+</html>
